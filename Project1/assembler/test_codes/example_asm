@@ -1,0 +1,39 @@
+ADDI r1, r2, #0x10000
+ADDI r1, r2, SHL(#0x200, #0x10)
+ANDI r1, r2, #2
+ANDI r1, r2, LSR(#4, #0x8)
+ORI r10, r11, #11
+ORI r10, r11, ASR(#40, #0x4)
+MOVI r9, #11
+MOVI r8, ROR(#13, #0x7)
+ADD r1, r2, r3
+SUB r2, r3, r4
+NEG r12, r16
+NOT r22, r7
+AND r1, r2, r3
+OR r10, r11, r12
+XOR r2, r3, r22
+LSR r1, r2, #4
+LSR r1, r2, r3
+ASR r1, r2, #4
+ASR r1, r2, r3
+SHL r1, r2, #0x4
+SHL r1, r2, r3
+ROR r1, r2, #4
+ROR r1, r2, r3
+BRAL r1
+BREQ r4, r6
+BRLAL r1, r2
+BRLGE r4, r6, r11
+J #0x200000
+JL r1, #20
+LD r1, #1000
+LD r3, r17, #0x8
+LDR r1, #12
+ST r1, #4
+ST r2, r4, #4
+STR r1, #40
+LEA r1, #20
+IEN
+IDS
+RFI

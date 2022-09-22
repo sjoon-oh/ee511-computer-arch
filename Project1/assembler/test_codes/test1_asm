@@ -1,0 +1,17 @@
+MOVI r0, ROR(#-9, #4)
+MOVI r1, #90
+MOVI r2, #15
+MOVI r3, #3
+MOVI r4, SHL(#2, #1)
+MOVI r5, ASR(#-8, #1)	
+MOVI r6, #-12
+MOVI r7, #-100
+MOVI r8, #22
+MOVI r9, #-33
+ADD r10, r7, r1
+ADDI r11, r8, #-22		
+SUB r12, r4, r5
+NOT r13, r8
+SUB r14, r9, r7
+ADD r15, r5, r6
+NEG r16, r15

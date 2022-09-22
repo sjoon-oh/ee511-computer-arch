@@ -1,0 +1,10 @@
+MOVI r0, #0
+MOVI r1, #131071
+ORI r2, r2, #255
+NOT r3, r2
+SHL r4, r3, #16
+LSR r5, r4, #2
+ASR r6, r4, #2
+XOR r7, r6, r1
+AND r8, r3, r7
+OR r9, r3, r8
