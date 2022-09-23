@@ -1,0 +1,33 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/sjoon/Documents/git/ee511-computer-arch/Project1/ISS/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20220828.0/
+$(TARGET)	makefile	/^$(TARGET) : $(OBJECTS)$/;"	t
+BP	krpiss.h	/^unsigned int  BP;       \/*Break point*\/$/;"	v	typeref:typename:unsigned int
+CC	makefile	/^CC = gcc$/;"	m
+DMEM_SIZE	krpiss.h	/^#define	DMEM_SIZE /;"	d
+IE	krpiss.h	/^unsigned int  IE;       \/*Interrupt enable*\/$/;"	v	typeref:typename:unsigned int
+IMEM_SIZE	krpiss.h	/^#define	IMEM_SIZE /;"	d
+IPC	krpiss.h	/^unsigned int  IPC;      \/*Interrupted PC*\/$/;"	v	typeref:typename:unsigned int
+OBJECTS	makefile	/^OBJECTS = krpiss.o $/;"	m
+PC	krpiss.h	/^unsigned int  PC;       \/*Program counter*\/$/;"	v	typeref:typename:unsigned int
+TARGET	makefile	/^TARGET = krpiss$/;"	m
+all	makefile	/^all : $(TARGET)$/;"	t
+clean	makefile	/^clean :$/;"	t
+dm	krpiss.h	/^unsigned char*  dm;     \/*Data memory*\/$/;"	v	typeref:typename:unsigned char *
+dump_data_mem	krpiss.c	/^void dump_data_mem(char *file_name) {                                      $/;"	f	typeref:typename:void
+fp_dump	krpiss.h	/^FILE* fp_dump;          \/*Pointer for dumping dm*\/$/;"	v	typeref:typename:FILE *
+init_mem	krpiss.c	/^int init_mem(char *file_name) {                                      $/;"	f	typeref:typename:int
+krpiss.o	makefile	/^krpiss.o : .\/krpiss.c 	$/;"	t
+main	krpiss.c	/^int main(int argc, char** argv) {$/;"	f	typeref:typename:int
+pm	krpiss.h	/^unsigned char*  pm;     \/*Program memory*\/$/;"	v	typeref:typename:unsigned char *
+process	krpiss.c	/^void process(unsigned int inst) {$/;"	f	typeref:typename:void
+reg	krpiss.h	/^unsigned int  reg[32];  \/*General purpose registers*\/$/;"	v	typeref:typename:unsigned int[32]
+view_reg	krpiss.c	/^void view_reg(unsigned int inst) {$/;"	f	typeref:typename:void

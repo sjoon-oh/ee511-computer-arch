@@ -1,0 +1,30 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/sjoon/Documents/git/ee511-computer-arch/Project1/assembler/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20220828.0/
+IMEM_SIZE	krpassembler.c	/^#define	IMEM_SIZE	/;"	d	file:
+L_I	krpassembler.c	/^#define	L_I	/;"	d	file:
+L_IMM10	krpassembler.c	/^#define	L_IMM10	/;"	d	file:
+L_MODE	krpassembler.c	/^#define	L_MODE	/;"	d	file:
+L_OPC	krpassembler.c	/^#define	L_OPC	/;"	d	file:
+L_RA	krpassembler.c	/^#define	L_RA	/;"	d	file:
+L_RB	krpassembler.c	/^#define	L_RB	/;"	d	file:
+L_RC	krpassembler.c	/^#define	L_RC	/;"	d	file:
+N_ADDI1	krpassembler.c	/^#define	N_ADDI1	/;"	d	file:
+N_ADDI2	krpassembler.c	/^#define	N_ADDI2	/;"	d	file:
+c_a	krpassembler.c	/^char c_a[20];$/;"	v	typeref:typename:char[20]
+c_b	krpassembler.c	/^char c_b[20];$/;"	v	typeref:typename:char[20]
+c_c	krpassembler.c	/^char c_c[20];$/;"	v	typeref:typename:char[20]
+c_line	krpassembler.c	/^char c_line[50];$/;"	v	typeref:typename:char[50]
+c_opc	krpassembler.c	/^char c_opc[20];$/;"	v	typeref:typename:char[20]
+decode	krpassembler.c	/^unsigned int decode() {$/;"	f	typeref:typename:unsigned int
+fp_w	krpassembler.c	/^FILE *fp_w;$/;"	v	typeref:typename:FILE *
+main	krpassembler.c	/^int main (int argc, char** argv) {$/;"	f	typeref:typename:int
+parse	krpassembler.c	/^void parse(char* s) {$/;"	f	typeref:typename:void

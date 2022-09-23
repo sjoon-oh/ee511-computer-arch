@@ -1,3 +1,3 @@
 make clean
 make
-./krpiss ../assembler/vecotrs.bin output_file
+./krpiss ../assembler/vectors.bin output_file
