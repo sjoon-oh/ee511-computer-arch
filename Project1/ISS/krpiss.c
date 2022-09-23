@@ -124,99 +124,198 @@ void dump_data_mem(char *file_name) {
 
 
 /* [EE511] Computer Arch. Project 1
+ * -- implemenation starts from here.
+ *  Refer to the first commit and the final changelog.
  *
  * Author: Sukjoon Oh, sjoon@kaist.ac.kr
  * */
 
-#define ONES    		0xFFFFFFFF
+#define ONES            0xFFFFFFFF
 
+#define NBITS           32
 #define NBITS_IMM17     17
+#define NBITS_RC        5
 #define NBITS_RB        5
 #define NBITS_RA        5
-#define NBITS_OPCODE	5
+#define NBITS_OPCODE    5
 
+#define NBITS_I         1
 #define NBITS_SHAMT     5
 #define NBTIS_MODE      2
 #define NBITS_IMM10     10
 
+#define NBITS_IMM22     22
+
 // Type 1
 #define OFFS_IMM17      0
+#define OFFS_RC         12
 #define OFFS_RB         (OFFS_IMM17 + NBITS_IMM17)
 #define OFFS_RA        	(OFFS_RB + NBITS_RB)
 #define OFFS_OPCODE     (OFFS_RA + NBITS_RA)
 
+#define OFFS_IMM22      0
+
 // Type 2
 #define OFFS_SHAMT      0
-#define OFFS_MODE       (OFF_SHAMT + NBITS_SHAMT)
-#define OFFS_IMM10      (OFF_MODE + NBITS_MODE)
+#define OFFS_I          (OFFS_SHAMT + NBITS_SHAMT)
+#define OFFS_MODE       (OFFS_SHAMT + NBITS_SHAMT)
+#define OFFS_IMM10      (OFFS_MODE + NBITS_MODE)
 
-#define LSMASK_IMM17    (ONES >> (32 - NBITS_IMM17))
-#define LSMASK_RB       (ONES >> (32 - NBITS_RB))
-#define LSMASK_RA       (ONES >> (32 - NBITS_RA))
-#define LSMASK_OPCODE   (ONES >> (32 - NBITS_OPCODE))
-#define LSMASK_SHAMT    (ONES >> (32 - NBITS_SHAMT))
-#define LSMASK_MODE     (ONES >> (32 - NBTIS_MODE))
-#define LSMASK_IMM10    (ONES >> (32 - NBITS_IMM10))
+#define LSMASK_IMM17    (ONES >> (NBITS - NBITS_IMM17))
+#define LSMASK_RC       (ONES >> (NBITS - NBITS_RC))
+#define LSMASK_RB       (ONES >> (NBITS - NBITS_RB))
+#define LSMASK_RA       (ONES >> (NBITS - NBITS_RA))
+#define LSMASK_OPCODE   (ONES >> (NBITS - NBITS_OPCODE))
+#define LSMASK_I        (ONES >> (NBITS - NBITS_I))
+#define LSMASK_SHAMT    (ONES >> (NBITS - NBITS_SHAMT))
+#define LSMASK_MODE     (ONES >> (NBITS - NBTIS_MODE))
+#define LSMASK_IMM10    (ONES >> (NBITS - NBITS_IMM10))
 
-#define SL_EXTR(inst, offs, lsmask) \
+#define LSMASK_IMM22    (ONES >> (NBITS - NBITS_IMM22))
+
+/* Shortened substitution
+ * */ 
+#define LMI17   LSMASK_IMM17
+#define LMRC    LSMASK_RC
+#define LMRB    LSMASK_RB
+#define LMRA    LSMASK_RA
+#define LMO     LSMASK_OPCODE
+#define LI      LSMASK_I
+#define LMS     LSMASK_SHAMT
+#define LMM     LSMASK_MODE
+#define LMI10   LSMASK_IMM10
+#define LMI22   LSMASK_IMM22
+
+#define NBI17   NBITS_IMM17
+#define NBRC    NBITS_RC
+#define NBRB    NBITS_RB
+#define NBRA    NBITS_RA
+#define NBO     NBITS_OPCODE
+#define NBI     NBITS_I
+#define NBS     NBITS_SHAMT
+#define NBM     NBITS_MODE
+#define NBI10   NBITS_IMM10
+#define NBI22   NBITS_IMM22
+
+#define OI17    OFFS_IMM17
+#define ORC     OFFS_RC
+#define ORB     OFFS_RB
+#define ORA     OFFS_RA
+#define OO      OFFS_OPCODE
+#define OI      OFFS_I
+#define OS      OFFS_SHAMT
+#define OM      OFFS_MODE
+#define OI10    OFFS_IMM10
+#define OI22    OFFS_IMM22
+
+#define __EXT(inst, offs, lsmask) \
     ((inst >> offs) & lsmask) 
 
-unsigned sign_ext(unsigned tar, unsigned sz) { 
-   return ((tar >> (sz - 1)) << 31) 
-       & ((~(ONES << (sz - 1))) & tar);
+unsigned sign_ext2(unsigned tar, unsigned bits) {
+#define __SB(t, sz)   (t >> (sz - 1))
+#define __RB(t, sz)   ((~(ONES << (sz - 1))) & tar)
+    return (bits == 0) ? 0 : (__SB(tar, bits) | __RB(tar, bits));
 }
 
-void __addi1(unsigned inst) {}
+// Here lies some global substitutions, 
+//  do not delete these abbreviations.
+#define I2RA_     __EXT(inst, ORA, LMRA)
+#define I2RB_     __EXT(inst, ORB, LMRB)
+#define I2RC_     __EXT(inst, ORC, LMRC)
+#define I2IMM11_  __EXT(inst, OI11, LMI11)
+#define I2IMM17_  __EXT(inst, OI17, LMI17)
+#define I2IMM22_  __EXT(inst, OI22, LMI22)
+#define I2OP_     __EXT(inst, OO, LMO)
+#define I2OM_     __EXT(inst, OM, LMM)
+
+#define I2I_      __EXT(inst, OI, LI)
+#define I2S_      __EXT(inst, OS, LMS)
+
+unsigned switch_mode(unsigned inst) {
+    unsigned shamt = I2S_;
+    switch (I2OM_) {
+        case 0: return 0;
+        case 1: return 0;
+        case 2: return 0;
+        case 3: return 0;
+    }
+}
+
+
+void __addi1(unsigned inst) { reg[I2RA_] = reg[I2RB_] + sign_ext2(I2IMM17_, NBI17); }
 void __addi2(unsigned inst) {}
-void __ori1(unsigned inst) {}
-void __ori2(unsigned inst) {}
-void __andi1(unsigned inst) {}
-void __andi2(unsigned inst) {}
-void __movi1(unsigned inst) { 
-	unsigned ra = SL_EXTR(inst, OFFS_RA, LSMASK_RA);
-	unsigned imm17 = SL_EXTR(inst, OFFS_IMM17, LSMASK_IMM17);
 
-	reg[ra] = sign_ext(imm17, NBITS_IMM17); 
+void __ori1(unsigned inst) { reg[I2RA_] = reg[I2RB_] | sign_ext2(I2IMM17_, NBI17); }
+void __ori2(unsigned inst) {}
+
+void __andi1(unsigned inst) { reg[I2RA_] = reg[I2RB_] & sign_ext2(I2IMM17_, NBI17); }
+void __andi2(unsigned inst) {}
+
+void __movi1(unsigned inst) { reg[I2RA_] = sign_ext2(I2IMM17_, NBI17); } 
+void __movi2(unsigned inst) {
+    
 }
-void __movi2(unsigned inst) {}
-void __add(unsigned inst) {}
-void __sub(unsigned inst) {}
-void __not(unsigned inst) {}
-void __neg(unsigned inst) {}
-void __or(unsigned inst) {}
-void __and(unsigned inst) {}
-void __xor(unsigned inst) {}
-void __asr(unsigned inst) {}
-void __lsr(unsigned inst) {}
-void __shl(unsigned inst) {}
+
+void __add(unsigned inst) { reg[I2RA_] = reg[I2RB_] + reg[I2RC_]; }
+void __sub(unsigned inst) {
+
+}
+void __not(unsigned inst) { reg[I2RA_] = ~reg[I2RC_]; }
+void __neg(unsigned inst) { unsigned lc = reg[I2RC_]; reg[I2RA_] = (~lc) + 1; }
+
+void __or(unsigned inst) { reg[I2RA_] = reg[I2RB_] | reg[I2RC_]; }
+
+void __and(unsigned inst) { reg[I2RA_] = reg[I2RB_] & reg[I2RC_]; }
+void __xor(unsigned inst) { reg[I2RA_] = reg[I2RB_] ^ reg[I2RC_]; }
+void __asr(unsigned inst) {
+}
+
+void __lsr(unsigned inst) { reg[I2RA_] = (I2I_ == 0) ? reg[I2RB_] >> I2S_ : reg[I2RB_] >> (reg[(I2RC_ & 0b11111)]); }
+void __shl(unsigned inst) { reg[I2RA_] = (I2I_ == 0) ? reg[I2RB_] << I2S_ : reg[I2RB_] << (reg[(I2RC_ & 0b11111)]); }
 void __ror(unsigned inst) {}
+
 void __br(unsigned inst) {}
 void __brl(unsigned inst) {}
-void __j(unsigned inst) {}
-void __jl(unsigned inst) {}
-void __ld(unsigned inst) {}
-void __ldr(unsigned inst) {}
-void __st(unsigned inst) {}
-void __str(unsigned inst) {}
-void __lea(unsigned inst) {}
-void __nop(unsigned inst) {}
-void __ien(unsigned inst) {}
-void __ids(unsigned inst) {}
-void __rfi(unsigned inst) {}
 
+void __j(unsigned inst) { PC = PC + sign_ext2(I2IMM22_, NBI22); }
+void __jl(unsigned inst) {
+    reg[I2RA_] = PC;
+    PC = PC + sign_ext2(I2IMM22_, NBI22);
+}
+
+void __ld(unsigned inst) {
+    unsigned ra = I2RA_;
+    unsigned maddr = sign_ext2(I2IMM17_, NBI17);
+
+    reg[ra] = (I2RB_ == 0b11111) ? dm[maddr] : dm[maddr + I2RB_];
+}
+void __ldr(unsigned inst) { reg[I2RA_] = dm[PC + sign_ext2(I2IMM22_, NBI22)]; }
+void __st(unsigned inst) {
+    unsigned ra = I2RA_;
+    unsigned maddr = sign_ext2(I2IMM17_, NBI17);
+
+    if (I2RB_ == 0b11111) dm[sign_ext2(I2IMM17_, NBI17)] = reg[ra];
+    else dm[sign_ext2(I2IMM17_, NBI17) + I2RB_] = reg[ra];
+}
+void __str(unsigned inst) { dm[PC + sign_ext2(I2IMM22_, NBI22)] = reg[I2RA_]; }
+
+void __lea(unsigned inst) { reg[I2RA_] = PC + sign_ext2(I2IMM22_, NBI22); }
+void __nop(unsigned inst) { } // OK.
+void __ien(unsigned inst) { IE = 1; } // OK. 
+void __ids(unsigned inst) { IE = 0; } // OK. 
+void __rfi(unsigned inst) { PC = IPC; IE = 1; } // OK.
+
+/* Predefined functions
+ * */
 void (*operation[])(unsigned) = {
-    __addi1,    __addi2,    __ori1,     __ori2, \
-    __andi1,    __andi2,    __movi1,    __movi2, \
-    __add,      __sub,      __not,      __neg, \
-    __or,       __and,      __xor,      __asr, \
-    __lsr,      __shl,      __ror,      __br, \
-    __brl,      __j,        __jl,       __ld, \
-    __ldr,      __st,       __str,      __lea, \
-    __nop,      __ien,      __ids,      __rfi
+    __addi1, __addi2, __ori1,  __ori2,  \
+    __andi1, __andi2, __movi1, __movi2, \
+    __add,   __sub,   __not,   __neg,   \
+    __or,    __and,   __xor,   __asr,   \
+    __lsr,   __shl,   __ror,   __br,    \
+    __brl,   __j,     __jl,    __ld,    \
+    __ldr,   __st,    __str,   __lea,   \
+    __nop,   __ien,   __ids,   __rfi
 };
 
-void process(unsigned int inst) {
-
-    unsigned opcode = SL_EXTR(inst, OFFS_OPCODE, LSMASK_OPCODE);
-    operation[opcode](inst);
-}
+void process(unsigned int inst) { operation[I2OP_](inst); }
