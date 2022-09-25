@@ -139,9 +139,11 @@ void dump_data_mem(char *file_name) {
 #define NBITS_RA        5
 #define NBITS_OPCODE    5
 
+#define NBITS_COND		3
+
 #define NBITS_I         1
 #define NBITS_SHAMT     5
-#define NBTIS_MODE      2
+#define NBITS_MODE      2
 #define NBITS_IMM10     10
 
 #define NBITS_IMM22     22
@@ -153,6 +155,7 @@ void dump_data_mem(char *file_name) {
 #define OFFS_RA        	(OFFS_RB + NBITS_RB)
 #define OFFS_OPCODE     (OFFS_RA + NBITS_RA)
 
+#define OFFS_COND		0
 #define OFFS_IMM22      0
 
 // Type 2
@@ -166,9 +169,10 @@ void dump_data_mem(char *file_name) {
 #define LSMASK_RB       (ONES >> (NBITS - NBITS_RB))
 #define LSMASK_RA       (ONES >> (NBITS - NBITS_RA))
 #define LSMASK_OPCODE   (ONES >> (NBITS - NBITS_OPCODE))
+#define LSMASK_COND     (ONES >> (NBITS - NBITS_COND))
 #define LSMASK_I        (ONES >> (NBITS - NBITS_I))
 #define LSMASK_SHAMT    (ONES >> (NBITS - NBITS_SHAMT))
-#define LSMASK_MODE     (ONES >> (NBITS - NBTIS_MODE))
+#define LSMASK_MODE     (ONES >> (NBITS - NBITS_MODE))
 #define LSMASK_IMM10    (ONES >> (NBITS - NBITS_IMM10))
 
 #define LSMASK_IMM22    (ONES >> (NBITS - NBITS_IMM22))
@@ -180,6 +184,7 @@ void dump_data_mem(char *file_name) {
 #define LMRB    LSMASK_RB
 #define LMRA    LSMASK_RA
 #define LMO     LSMASK_OPCODE
+#define LMC     LSMASK_COND
 #define LI      LSMASK_I
 #define LMS     LSMASK_SHAMT
 #define LMM     LSMASK_MODE
@@ -202,6 +207,7 @@ void dump_data_mem(char *file_name) {
 #define ORB     OFFS_RB
 #define ORA     OFFS_RA
 #define OO      OFFS_OPCODE
+#define OC      OFFS_COND
 #define OI      OFFS_I
 #define OS      OFFS_SHAMT
 #define OM      OFFS_MODE
@@ -212,9 +218,9 @@ void dump_data_mem(char *file_name) {
     ((inst >> offs) & lsmask) 
 
 unsigned sign_ext2(unsigned tar, unsigned bits) {
+
 #define __SB(t, sz)   (t >> (sz - 1))
-#define __RB(t, sz)   ((~(ONES << (sz - 1))) & tar)
-    return (bits == 0) ? 0 : (__SB(tar, bits) | __RB(tar, bits));
+    return (__SB(tar, bits)) ? ((ONES << (32 - bits)) | tar) : tar;
 }
 
 // Here lies some global substitutions, 
@@ -222,75 +228,89 @@ unsigned sign_ext2(unsigned tar, unsigned bits) {
 #define I2RA_     __EXT(inst, ORA, LMRA)
 #define I2RB_     __EXT(inst, ORB, LMRB)
 #define I2RC_     __EXT(inst, ORC, LMRC)
-#define I2IMM11_  __EXT(inst, OI11, LMI11)
+#define I2IMM10_  __EXT(inst, OI10, LMI10)
 #define I2IMM17_  __EXT(inst, OI17, LMI17)
 #define I2IMM22_  __EXT(inst, OI22, LMI22)
 #define I2OP_     __EXT(inst, OO, LMO)
+#define I2C_      __EXT(inst, OC, LMC)
 #define I2OM_     __EXT(inst, OM, LMM)
 
 #define I2I_      __EXT(inst, OI, LI)
 #define I2S_      __EXT(inst, OS, LMS)
 
-unsigned switch_mode(unsigned inst) {
+unsigned switch_mode_typed2(unsigned inst) {
     unsigned shamt = I2S_;
+    unsigned se_imm10 = sign_ext2(I2IMM10_, NBI10);
     switch (I2OM_) {
-        case 0: return 0;
-        case 1: return 0;
-        case 2: return 0;
-        case 3: return 0;
+        case 0: return (se_imm10 << shamt);
+        case 1: return (se_imm10 >> shamt);
+        case 2: return ((se_imm10 & (ONES << 31)) | (se_imm10 >> shamt));
+        case 3: return ((se_imm10 << (32 - shamt)) | (se_imm10 >> shamt));
     }
 }
 
+// forward declaration
+void __nop(unsigned);
+void __neg(unsigned);
 
 void __addi1(unsigned inst) { reg[I2RA_] = reg[I2RB_] + sign_ext2(I2IMM17_, NBI17); }
-void __addi2(unsigned inst) {}
+void __addi2(unsigned inst) { reg[I2RA_] = reg[I2RB_] + switch_mode_typed2(inst); }
 
 void __ori1(unsigned inst) { reg[I2RA_] = reg[I2RB_] | sign_ext2(I2IMM17_, NBI17); }
-void __ori2(unsigned inst) {}
+void __ori2(unsigned inst) { reg[I2RA_] = reg[I2RB_] | switch_mode_typed2(inst); }
 
 void __andi1(unsigned inst) { reg[I2RA_] = reg[I2RB_] & sign_ext2(I2IMM17_, NBI17); }
-void __andi2(unsigned inst) {}
+void __andi2(unsigned inst) { reg[I2RA_] = reg[I2RB_] & switch_mode_typed2(inst); }
 
 void __movi1(unsigned inst) { reg[I2RA_] = sign_ext2(I2IMM17_, NBI17); } 
-void __movi2(unsigned inst) {
-    
-}
+void __movi2(unsigned inst) { reg[I2RA_] = switch_mode_typed2(inst); }
 
 void __add(unsigned inst) { reg[I2RA_] = reg[I2RB_] + reg[I2RC_]; }
-void __sub(unsigned inst) {
+void __sub(unsigned inst) { reg[I2RA_] = reg[I2RB_] + ((~reg[I2RC_]) + 1); }
 
-}
 void __not(unsigned inst) { reg[I2RA_] = ~reg[I2RC_]; }
 void __neg(unsigned inst) { unsigned lc = reg[I2RC_]; reg[I2RA_] = (~lc) + 1; }
 
-void __or(unsigned inst) { reg[I2RA_] = reg[I2RB_] | reg[I2RC_]; }
-
+void __or(unsigned inst)  { reg[I2RA_] = reg[I2RB_] | reg[I2RC_]; }
 void __and(unsigned inst) { reg[I2RA_] = reg[I2RB_] & reg[I2RC_]; }
 void __xor(unsigned inst) { reg[I2RA_] = reg[I2RB_] ^ reg[I2RC_]; }
 void __asr(unsigned inst) {
+    reg[I2RA_] = (I2I_) ? 
+        ((reg[I2RB_] & (ONES << 31)) | (reg[I2RB_] >> I2S_)) : 
+        ((reg[I2RB_] & (ONES << 31)) | (reg[I2RB_] >> reg[I2RC_ & 0b11111]));
 }
 
 void __lsr(unsigned inst) { reg[I2RA_] = (I2I_ == 0) ? reg[I2RB_] >> I2S_ : reg[I2RB_] >> (reg[(I2RC_ & 0b11111)]); }
 void __shl(unsigned inst) { reg[I2RA_] = (I2I_ == 0) ? reg[I2RB_] << I2S_ : reg[I2RB_] << (reg[(I2RC_ & 0b11111)]); }
-void __ror(unsigned inst) {}
-
-void __br(unsigned inst) {}
-void __brl(unsigned inst) {}
-
-void __j(unsigned inst) { PC = PC + sign_ext2(I2IMM22_, NBI22); }
-void __jl(unsigned inst) {
-    reg[I2RA_] = PC;
-    PC = PC + sign_ext2(I2IMM22_, NBI22);
+void __ror(unsigned inst) {
+    reg[I2RA_] = (I2I_) ? 
+        ((reg[I2RB_] << (32 - I2S_)) | (reg[I2RB_] >> I2S_)) : 
+        ((reg[I2RB_] << (32 - reg[I2RC_ & 0b11111])) | (reg[I2RB_] >> reg[I2RC_ & 0b11111]));
 }
 
-void __ld(unsigned inst) {
+void __br(unsigned inst)  {
+    switch (I2C_) {
+        case 1: PC = reg[I2RB_]; break;
+        case 2: if (reg[I2RC_] == 0) PC = reg[I2RB_]; break;
+        case 3: if (reg[I2RC_] != 0) PC = reg[I2RB_]; break;
+        case 4: if ((reg[I2RC_] & (ONES << 31)) == 0) PC = reg[I2RB_]; break;
+        case 5: if ((reg[I2RC_] & (ONES << 31)) != 0) PC = reg[I2RB_]; break;
+        default: __nop(inst);
+    }
+}
+void __brl(unsigned inst) { reg[I2RA_] = PC; __br(inst); }
+
+void __j(unsigned inst)   { PC = PC + sign_ext2(I2IMM22_, NBI22); }
+void __jl(unsigned inst)  { reg[I2RA_] = PC; PC = PC + sign_ext2(I2IMM22_, NBI22); }
+
+void __ld(unsigned inst)  {
     unsigned ra = I2RA_;
     unsigned maddr = sign_ext2(I2IMM17_, NBI17);
 
     reg[ra] = (I2RB_ == 0b11111) ? dm[maddr] : dm[maddr + I2RB_];
 }
 void __ldr(unsigned inst) { reg[I2RA_] = dm[PC + sign_ext2(I2IMM22_, NBI22)]; }
-void __st(unsigned inst) {
+void __st(unsigned inst)  {
     unsigned ra = I2RA_;
     unsigned maddr = sign_ext2(I2IMM17_, NBI17);
 
@@ -300,9 +320,9 @@ void __st(unsigned inst) {
 void __str(unsigned inst) { dm[PC + sign_ext2(I2IMM22_, NBI22)] = reg[I2RA_]; }
 
 void __lea(unsigned inst) { reg[I2RA_] = PC + sign_ext2(I2IMM22_, NBI22); }
-void __nop(unsigned inst) { } // OK.
-void __ien(unsigned inst) { IE = 1; } // OK. 
-void __ids(unsigned inst) { IE = 0; } // OK. 
+void __nop(unsigned inst) { } 					// OK.
+void __ien(unsigned inst) { IE = 1; } 			// OK. 
+void __ids(unsigned inst) { IE = 0; } 			// OK. 
 void __rfi(unsigned inst) { PC = IPC; IE = 1; } // OK.
 
 /* Predefined functions
