@@ -13,12 +13,124 @@ $(TARGET)	makefile	/^$(TARGET) : $(OBJECTS)$/;"	t
 BP	krpiss.h	/^unsigned int  BP;       \/*Break point*\/$/;"	v	typeref:typename:unsigned int
 CC	makefile	/^CC = gcc$/;"	m
 DMEM_SIZE	krpiss.h	/^#define	DMEM_SIZE /;"	d
+I2C_	krpiss.c	/^#define I2C_ /;"	d	file:
+I2IMM10_	krpiss.c	/^#define I2IMM10_ /;"	d	file:
+I2IMM17_	krpiss.c	/^#define I2IMM17_ /;"	d	file:
+I2IMM22_	krpiss.c	/^#define I2IMM22_ /;"	d	file:
+I2I_	krpiss.c	/^#define I2I_ /;"	d	file:
+I2OM_	krpiss.c	/^#define I2OM_ /;"	d	file:
+I2OP_	krpiss.c	/^#define I2OP_ /;"	d	file:
+I2RA_	krpiss.c	/^#define I2RA_ /;"	d	file:
+I2RB_	krpiss.c	/^#define I2RB_ /;"	d	file:
+I2RC_	krpiss.c	/^#define I2RC_ /;"	d	file:
+I2S_	krpiss.c	/^#define I2S_ /;"	d	file:
 IE	krpiss.h	/^unsigned int  IE;       \/*Interrupt enable*\/$/;"	v	typeref:typename:unsigned int
 IMEM_SIZE	krpiss.h	/^#define	IMEM_SIZE /;"	d
 IPC	krpiss.h	/^unsigned int  IPC;      \/*Interrupted PC*\/$/;"	v	typeref:typename:unsigned int
+LI	krpiss.c	/^#define LI /;"	d	file:
+LMC	krpiss.c	/^#define LMC /;"	d	file:
+LMI10	krpiss.c	/^#define LMI10 /;"	d	file:
+LMI17	krpiss.c	/^#define LMI17 /;"	d	file:
+LMI22	krpiss.c	/^#define LMI22 /;"	d	file:
+LMM	krpiss.c	/^#define LMM /;"	d	file:
+LMO	krpiss.c	/^#define LMO /;"	d	file:
+LMRA	krpiss.c	/^#define LMRA /;"	d	file:
+LMRB	krpiss.c	/^#define LMRB /;"	d	file:
+LMRC	krpiss.c	/^#define LMRC /;"	d	file:
+LMS	krpiss.c	/^#define LMS /;"	d	file:
+LSMASK_COND	krpiss.c	/^#define LSMASK_COND /;"	d	file:
+LSMASK_I	krpiss.c	/^#define LSMASK_I /;"	d	file:
+LSMASK_IMM10	krpiss.c	/^#define LSMASK_IMM10 /;"	d	file:
+LSMASK_IMM17	krpiss.c	/^#define LSMASK_IMM17 /;"	d	file:
+LSMASK_IMM22	krpiss.c	/^#define LSMASK_IMM22 /;"	d	file:
+LSMASK_MODE	krpiss.c	/^#define LSMASK_MODE /;"	d	file:
+LSMASK_OPCODE	krpiss.c	/^#define LSMASK_OPCODE /;"	d	file:
+LSMASK_RA	krpiss.c	/^#define LSMASK_RA /;"	d	file:
+LSMASK_RB	krpiss.c	/^#define LSMASK_RB /;"	d	file:
+LSMASK_RC	krpiss.c	/^#define LSMASK_RC /;"	d	file:
+LSMASK_SHAMT	krpiss.c	/^#define LSMASK_SHAMT /;"	d	file:
+NBI	krpiss.c	/^#define NBI /;"	d	file:
+NBI10	krpiss.c	/^#define NBI10 /;"	d	file:
+NBI17	krpiss.c	/^#define NBI17 /;"	d	file:
+NBI22	krpiss.c	/^#define NBI22 /;"	d	file:
+NBITS	krpiss.c	/^#define NBITS /;"	d	file:
+NBITS_COND	krpiss.c	/^#define NBITS_COND	/;"	d	file:
+NBITS_I	krpiss.c	/^#define NBITS_I /;"	d	file:
+NBITS_IMM10	krpiss.c	/^#define NBITS_IMM10 /;"	d	file:
+NBITS_IMM17	krpiss.c	/^#define NBITS_IMM17 /;"	d	file:
+NBITS_IMM22	krpiss.c	/^#define NBITS_IMM22 /;"	d	file:
+NBITS_MODE	krpiss.c	/^#define NBITS_MODE /;"	d	file:
+NBITS_OPCODE	krpiss.c	/^#define NBITS_OPCODE /;"	d	file:
+NBITS_RA	krpiss.c	/^#define NBITS_RA /;"	d	file:
+NBITS_RB	krpiss.c	/^#define NBITS_RB /;"	d	file:
+NBITS_RC	krpiss.c	/^#define NBITS_RC /;"	d	file:
+NBITS_SHAMT	krpiss.c	/^#define NBITS_SHAMT /;"	d	file:
+NBM	krpiss.c	/^#define NBM /;"	d	file:
+NBO	krpiss.c	/^#define NBO /;"	d	file:
+NBRA	krpiss.c	/^#define NBRA /;"	d	file:
+NBRB	krpiss.c	/^#define NBRB /;"	d	file:
+NBRC	krpiss.c	/^#define NBRC /;"	d	file:
+NBS	krpiss.c	/^#define NBS /;"	d	file:
 OBJECTS	makefile	/^OBJECTS = krpiss.o $/;"	m
+OC	krpiss.c	/^#define OC /;"	d	file:
+OFFS_COND	krpiss.c	/^#define OFFS_COND	/;"	d	file:
+OFFS_I	krpiss.c	/^#define OFFS_I /;"	d	file:
+OFFS_IMM10	krpiss.c	/^#define OFFS_IMM10 /;"	d	file:
+OFFS_IMM17	krpiss.c	/^#define OFFS_IMM17 /;"	d	file:
+OFFS_IMM22	krpiss.c	/^#define OFFS_IMM22 /;"	d	file:
+OFFS_MODE	krpiss.c	/^#define OFFS_MODE /;"	d	file:
+OFFS_OPCODE	krpiss.c	/^#define OFFS_OPCODE /;"	d	file:
+OFFS_RA	krpiss.c	/^#define OFFS_RA /;"	d	file:
+OFFS_RB	krpiss.c	/^#define OFFS_RB /;"	d	file:
+OFFS_RC	krpiss.c	/^#define OFFS_RC /;"	d	file:
+OFFS_SHAMT	krpiss.c	/^#define OFFS_SHAMT /;"	d	file:
+OI	krpiss.c	/^#define OI /;"	d	file:
+OI10	krpiss.c	/^#define OI10 /;"	d	file:
+OI17	krpiss.c	/^#define OI17 /;"	d	file:
+OI22	krpiss.c	/^#define OI22 /;"	d	file:
+OM	krpiss.c	/^#define OM /;"	d	file:
+ONES	krpiss.c	/^#define ONES /;"	d	file:
+OO	krpiss.c	/^#define OO /;"	d	file:
+ORA	krpiss.c	/^#define ORA /;"	d	file:
+ORB	krpiss.c	/^#define ORB /;"	d	file:
+ORC	krpiss.c	/^#define ORC /;"	d	file:
+OS	krpiss.c	/^#define OS /;"	d	file:
 PC	krpiss.h	/^unsigned int  PC;       \/*Program counter*\/$/;"	v	typeref:typename:unsigned int
 TARGET	makefile	/^TARGET = krpiss$/;"	m
+__EXT	krpiss.c	/^#define __EXT(/;"	d	file:
+__SB	krpiss.c	/^#define __SB(/;"	d	file:
+__add	krpiss.c	/^void __add(unsigned inst) { reg[I2RA_] = reg[I2RB_] + reg[I2RC_]; }$/;"	f	typeref:typename:void
+__addi1	krpiss.c	/^void __addi1(unsigned inst) { reg[I2RA_] = reg[I2RB_] + sign_ext2(I2IMM17_, NBI17); }$/;"	f	typeref:typename:void
+__addi2	krpiss.c	/^void __addi2(unsigned inst) { reg[I2RA_] = reg[I2RB_] + switch_mode_typed2(inst); }$/;"	f	typeref:typename:void
+__and	krpiss.c	/^void __and(unsigned inst) { reg[I2RA_] = reg[I2RB_] & reg[I2RC_]; }$/;"	f	typeref:typename:void
+__andi1	krpiss.c	/^void __andi1(unsigned inst) { reg[I2RA_] = reg[I2RB_] & sign_ext2(I2IMM17_, NBI17); }$/;"	f	typeref:typename:void
+__andi2	krpiss.c	/^void __andi2(unsigned inst) { reg[I2RA_] = reg[I2RB_] & switch_mode_typed2(inst); }$/;"	f	typeref:typename:void
+__asr	krpiss.c	/^void __asr(unsigned inst) {$/;"	f	typeref:typename:void
+__br	krpiss.c	/^void __br(unsigned inst)  {$/;"	f	typeref:typename:void
+__brl	krpiss.c	/^void __brl(unsigned inst) { reg[I2RA_] = PC; __br(inst); }$/;"	f	typeref:typename:void
+__ids	krpiss.c	/^void __ids(unsigned inst) { IE = 0; } 			\/\/ OK. $/;"	f	typeref:typename:void
+__ien	krpiss.c	/^void __ien(unsigned inst) { IE = 1; } 			\/\/ OK. $/;"	f	typeref:typename:void
+__j	krpiss.c	/^void __j(unsigned inst)   { PC = PC + sign_ext2(I2IMM22_, NBI22); }$/;"	f	typeref:typename:void
+__jl	krpiss.c	/^void __jl(unsigned inst)  { reg[I2RA_] = PC; PC = PC + sign_ext2(I2IMM22_, NBI22); }$/;"	f	typeref:typename:void
+__ld	krpiss.c	/^void __ld(unsigned inst)  {$/;"	f	typeref:typename:void
+__ldr	krpiss.c	/^void __ldr(unsigned inst) { reg[I2RA_] = dm[PC + sign_ext2(I2IMM22_, NBI22)]; }$/;"	f	typeref:typename:void
+__lea	krpiss.c	/^void __lea(unsigned inst) { reg[I2RA_] = PC + sign_ext2(I2IMM22_, NBI22); }$/;"	f	typeref:typename:void
+__lsr	krpiss.c	/^void __lsr(unsigned inst) { reg[I2RA_] = (I2I_ == 0) ? reg[I2RB_] >> I2S_ : reg[I2RB_] >> (reg[(/;"	f	typeref:typename:void
+__movi1	krpiss.c	/^void __movi1(unsigned inst) { reg[I2RA_] = sign_ext2(I2IMM17_, NBI17); } $/;"	f	typeref:typename:void
+__movi2	krpiss.c	/^void __movi2(unsigned inst) { reg[I2RA_] = switch_mode_typed2(inst); }$/;"	f	typeref:typename:void
+__neg	krpiss.c	/^void __neg(unsigned inst) { unsigned lc = reg[I2RC_]; reg[I2RA_] = (~lc) + 1; }$/;"	f	typeref:typename:void
+__nop	krpiss.c	/^void __nop(unsigned inst) { } 					\/\/ OK.$/;"	f	typeref:typename:void
+__not	krpiss.c	/^void __not(unsigned inst) { reg[I2RA_] = ~reg[I2RC_]; }$/;"	f	typeref:typename:void
+__or	krpiss.c	/^void __or(unsigned inst)  { reg[I2RA_] = reg[I2RB_] | reg[I2RC_]; }$/;"	f	typeref:typename:void
+__ori1	krpiss.c	/^void __ori1(unsigned inst) { reg[I2RA_] = reg[I2RB_] | sign_ext2(I2IMM17_, NBI17); }$/;"	f	typeref:typename:void
+__ori2	krpiss.c	/^void __ori2(unsigned inst) { reg[I2RA_] = reg[I2RB_] | switch_mode_typed2(inst); }$/;"	f	typeref:typename:void
+__rfi	krpiss.c	/^void __rfi(unsigned inst) { PC = IPC; IE = 1; } \/\/ OK.$/;"	f	typeref:typename:void
+__ror	krpiss.c	/^void __ror(unsigned inst) {$/;"	f	typeref:typename:void
+__shl	krpiss.c	/^void __shl(unsigned inst) { reg[I2RA_] = (I2I_ == 0) ? reg[I2RB_] << I2S_ : reg[I2RB_] << (reg[(/;"	f	typeref:typename:void
+__st	krpiss.c	/^void __st(unsigned inst)  {$/;"	f	typeref:typename:void
+__str	krpiss.c	/^void __str(unsigned inst) { dm[PC + sign_ext2(I2IMM22_, NBI22)] = reg[I2RA_]; }$/;"	f	typeref:typename:void
+__sub	krpiss.c	/^void __sub(unsigned inst) { reg[I2RA_] = reg[I2RB_] + ((~reg[I2RC_]) + 1); }$/;"	f	typeref:typename:void
+__xor	krpiss.c	/^void __xor(unsigned inst) { reg[I2RA_] = reg[I2RB_] ^ reg[I2RC_]; }$/;"	f	typeref:typename:void
 all	makefile	/^all : $(TARGET)$/;"	t
 clean	makefile	/^clean :$/;"	t
 dm	krpiss.h	/^unsigned char*  dm;     \/*Data memory*\/$/;"	v	typeref:typename:unsigned char *
@@ -27,7 +139,10 @@ fp_dump	krpiss.h	/^FILE* fp_dump;          \/*Pointer for dumping dm*\/$/;"	v	ty
 init_mem	krpiss.c	/^int init_mem(char *file_name) {                                      $/;"	f	typeref:typename:int
 krpiss.o	makefile	/^krpiss.o : .\/krpiss.c 	$/;"	t
 main	krpiss.c	/^int main(int argc, char** argv) {$/;"	f	typeref:typename:int
+operation	krpiss.c	/^void (*operation[])(unsigned) = {$/;"	v	typeref:typename:void (* [])(unsigned)
 pm	krpiss.h	/^unsigned char*  pm;     \/*Program memory*\/$/;"	v	typeref:typename:unsigned char *
-process	krpiss.c	/^void process(unsigned int inst) {$/;"	f	typeref:typename:void
+process	krpiss.c	/^void process(unsigned int inst) { operation[I2OP_](inst); }$/;"	f	typeref:typename:void
 reg	krpiss.h	/^unsigned int  reg[32];  \/*General purpose registers*\/$/;"	v	typeref:typename:unsigned int[32]
+sign_ext2	krpiss.c	/^unsigned sign_ext2(unsigned tar, unsigned bits) {$/;"	f	typeref:typename:unsigned
+switch_mode_typed2	krpiss.c	/^unsigned switch_mode_typed2(unsigned inst) {$/;"	f	typeref:typename:unsigned
 view_reg	krpiss.c	/^void view_reg(unsigned int inst) {$/;"	f	typeref:typename:void

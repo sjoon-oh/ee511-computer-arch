@@ -130,6 +130,12 @@ void dump_data_mem(char *file_name) {
  * Author: Sukjoon Oh, sjoon@kaist.ac.kr
  * */
 
+/* Here comes predefined, yet unlikely to be 
+ * updated values.
+ * */
+
+/* Syntax >
+ * NBITS : Number of Bits */
 #define ONES            0xFFFFFFFF
 
 #define NBITS           32
@@ -147,6 +153,12 @@ void dump_data_mem(char *file_name) {
 #define NBITS_IMM10     10
 
 #define NBITS_IMM22     22
+
+/* Syntax >
+ * OFFS : Offset
+ *  Next position Offset 
+ *      = Current offset + Current NBITS
+ * */
 
 // Type 1
 #define OFFS_IMM17      0
@@ -177,7 +189,8 @@ void dump_data_mem(char *file_name) {
 
 #define LSMASK_IMM22    (ONES >> (NBITS - NBITS_IMM22))
 
-/* Shortened substitution
+/* 
+ * Simple Shortened substitution
  * */ 
 #define LMI17   LSMASK_IMM17
 #define LMRC    LSMASK_RC
@@ -214,6 +227,8 @@ void dump_data_mem(char *file_name) {
 #define OI10    OFFS_IMM10
 #define OI22    OFFS_IMM22
 
+/* __EXT : Extract Field
+ * */
 #define __EXT(inst, offs, lsmask) \
     ((inst >> offs) & lsmask) 
 
@@ -223,8 +238,10 @@ unsigned sign_ext2(unsigned tar, unsigned bits) {
     return (__SB(tar, bits)) ? ((ONES << (32 - bits)) | tar) : tar;
 }
 
-// Here lies some global substitutions, 
-//  do not delete these abbreviations.
+/* Here lies some global substitutions, 
+ * do not delete these abbreviations. 
+ * */
+
 #define I2RA_     __EXT(inst, ORA, LMRA)
 #define I2RB_     __EXT(inst, ORB, LMRB)
 #define I2RC_     __EXT(inst, ORC, LMRC)
@@ -238,6 +255,8 @@ unsigned sign_ext2(unsigned tar, unsigned bits) {
 #define I2I_      __EXT(inst, OI, LI)
 #define I2S_      __EXT(inst, OS, LMS)
 
+/* Function defined for XXi series
+ * */
 unsigned switch_mode_typed2(unsigned inst) {
     unsigned shamt = I2S_;
     unsigned se_imm10 = sign_ext2(I2IMM10_, NBI10);
